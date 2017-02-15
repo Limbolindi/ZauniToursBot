@@ -41,14 +41,14 @@ MSG = {
 
 COMMANDS = [
     # command , description, permission-level
-    ["help", "prints this help-msg", 1],
-    ["show user1(;user2;userX)", "shows information about user1 optional: (;user2;user3)", 2],
-    ["showall", "information about ALL users: VALUE != 0", 2],
-    ["showall!", "information about ALL users", 2],
-    ["showhistory user1(;user2;userX)", "user-information, including history", 3],
-    ["showdetail user1", "prints ALL information about one user", 3],
-    ["add text;value;user1(;user2;userX)", "add <value> to userX with the kontext: text", 4],
-    ["adduser user1(;user2;userX)", "adds a new User to DB with username = userX", 5]
+    ["/help", "prints this help-msg", 1],
+    ["/show user1(;user2;userX)", "shows information about user1 optional: (;user2;user3)", 2],
+    ["/showall", "information about ALL users: VALUE != 0", 2],
+    ["/showall!", "information about ALL users", 2],
+    ["/showhistory user1(;user2;userX)", "user-information, including history", 3],
+    ["/showdetail user1", "prints ALL information about one user", 3],
+    ["/add text;value;user1(;user2;userX)", "add <value> to userX with the kontext: text", 4],
+    ["/adduser user1(;user2;userX)", "adds a new User to DB with username = userX", 5]
 ]
 
 
@@ -208,7 +208,7 @@ def command(msg, chat_id):
     if order == "help" and permission >= 1:
         text = ""
         for i in COMMANDS:
-            text += "%s \t %s \n" %(i[0], i[1])
+            text += "%s \t\t %s \n\n" %(i[0], i[1])
         BOT.sendMessage(chat_id, text)
     elif order == "show" and permission >= 2:
         BOT.sendMessage(chat_id, show(value), parse_mode="html")
