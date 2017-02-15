@@ -97,6 +97,8 @@ def show_all_users():
     result = GLOBAL['mongodb'].find()
     users = []
     for i in result:
+        if i.get("nick", "") is "":
+            continue
         users.append(i['nick'])
     users.sort()
     return users
