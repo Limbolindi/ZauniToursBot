@@ -196,7 +196,7 @@ def command(msg, chat_id):
     chat_id = str(chat_id)
     user_id = str(msg['from']['id'])
 
-    user = user_get_by_uid(int(user_id))
+    user = user_get_by_uid(user_id)
 
     if user is not None:
         permission = int(user['permission'])
@@ -282,6 +282,7 @@ if __name__ == "__main__":
             for i in data:
                 tmp = i.replace("\n","").replace("€","").split(";")
                 print add("00000", "übertrag aus Liste;" + tmp[0] + ";" + tmp[1])
+
 
         for i in config.items("user"):
             if str(i[0])[:4] == "user":
