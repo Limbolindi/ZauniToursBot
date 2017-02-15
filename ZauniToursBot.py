@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# -*- coding: utf-8-*-
 
 import ConfigParser
 import argparse
@@ -9,8 +9,8 @@ import telepot
 import json
 import time
 from decimal import Decimal
-
 import hashlib
+
 
 BOT = None
 
@@ -18,15 +18,18 @@ GLOBAL = {
     'admin_chat': '',
     'admin_id': '',
     'mongodb': None,
-    'debug': False
+    'debug': False,
+    'history': 5
 
 }
 
+EURO = "€".decode("utf-8")
+
 MSG = {
-    'show_user': "%s: %s &#128; \n",
+    'show_user': "%s: %s" + EURO + " \n",
     'unknown_nick': "User %s is unknown. \n",
     'missing_param_user': "No username to show. Parameter username is missing! \n",
-    'show_history': "\t\t\t\t%s : %s&#128;\n",
+    'show_history': "\t\t\t\t%s : %s" + EURO + "\n",
     'update_success': "",
     'missing_arguments_add': "missing arguments!\nadd text;value;user1(;user2;userX)\n",
     'user_exists': "User %s already exists\n",
@@ -63,6 +66,7 @@ def show(value, ignore0=False):
     names = value.split(";")
     text = ""
     for i in names:
+        print i
         data = user_get_by_nick(i)
         if data is not None:
             if ignore0 and data['value'] == 0.0:
@@ -102,8 +106,8 @@ def show_all(ignore0=False):
     users = show_all_users()
     text = ""
     for i in users:
-        text += ";" + i
-    return show(text, ignore0)
+        text += i + ";"
+    return show(text[:-1], ignore0)
 
 
 def show_history(value):
@@ -133,7 +137,7 @@ def add(user_id, value):
         return MSG['missing_arguments_add']
     # text;value;user
     text = tmp[0]
-    money = Decimal(tmp[1].replace(",","."))*10
+    money = int(Decimal(tmp[1].replace(",","."))*10)
     trans = {
         "time": str(time.strftime("%Y-%m-%d")),  #%H:%M:%S
         "text": text,
@@ -236,6 +240,7 @@ if __name__ == "__main__":
     required.add_argument('conf', help='configfile', type=file)
     parser.add_argument("-i", metavar="NAMES", dest="namefile", type=file,  help='names list\n')
     parser.add_argument("-v", metavar="VALUES", dest="valuefile", type=file, help='value list\n')
+
     args = parser.parse_args()
 
     config = ConfigParser.ConfigParser()
@@ -259,6 +264,11 @@ if __name__ == "__main__":
 
         GLOBAL['debug'] = config.getboolean('settings','debug')
 
+        GLOBAL['history'] = config.getint('init','history')
+
+
+
+
         if args.namefile is not None:
             data = list(args.namefile.readlines())
             for i in range(0, data.__len__()-1):
@@ -267,22 +277,22 @@ if __name__ == "__main__":
             for i in data:
                 print add_user(str(i).replace("\n", ""), user_id="000000")
 
-        if args.valuefile is None:
+        if args.valuefile is not None:
             data = list(args.valuefile.readlines())
             for i in data:
                 tmp = i.replace("\n","").replace("€","").split(";")
-                print add("00000",
-                          "übertrag aus Liste;" + tmp[0] + ";" + tmp[1])
+                print add("00000", "übertrag aus Liste;" + tmp[0] + ";" + tmp[1])
 
-        data = show_all_users()
-        for i in data:
-            print i
+        for i in config.items("user"):
+            if str(i[0])[:4] == "user":
+                tmp = i[1].split(",")
+                GLOBAL['mongodb'].update_one({"user_id": str(tmp[0])},
+                                             {"$set": {"permission": str(tmp[1]), "name": str(tmp[2])}},
+                                             upsert=True)
 
 
 
-        exit(1)
-
-        BOT.message_loop({'chat': handle, 'callback_query': callback_query})
+        BOT.message_loop({'chat': handle})
         print "Listen..."
 
         while 1:
@@ -290,5 +300,5 @@ if __name__ == "__main__":
 
     except:
         import traceback
-        #traceback.print_exc()
+        traceback.print_exc()
 
