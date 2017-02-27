@@ -18,6 +18,11 @@ MSG = {
     'add_update_success': "%s set from %s" + EURO + " to %s" + EURO,
 
     'trans_missing_param': "Missing arguments: /trans text;value;fromUser1;toUser2",
+    'chat_already_exists': "",
+    'error_mongo_setchat': "",
+    'chat_created': "",
+    'unknown_chat': "",
+    'car_not_found': ""
 }
 
 COMMANDS = [
