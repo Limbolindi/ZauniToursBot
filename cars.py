@@ -60,7 +60,7 @@ class Chat(Struckt):
         for k in cars[car].keys():
             if cars[car][k] is not "0000":
                 text += str(k) + ": " + self.user_get_by_uid(cars[car][k])
-
+        return text
 
     def get_car(self, car):
         A1 = CAR['check'] if car.get("A1", "0000")  == "0000" else CAR['cross']
@@ -68,7 +68,9 @@ class Chat(Struckt):
         B1 = CAR['check'] if car.get("B1", "0000")  == "0000" else CAR['cross']
         B2 = CAR['check'] if car.get("B2", "0000")  == "0000" else CAR['cross']
         B3 = CAR['check'] if car.get("B3", "0000")  == "0000" else CAR['cross']
-        data = CAR['head'] + CAR['wall'] + CAR['A'] % (A1, A3) + CAR['space', + CAR['B'] % (B1, B2, B3) + CAR['space'] + CAR['back'] + CAR['wall']
+        data = CAR['head'] + CAR['wall'] + CAR['A'] % (A1, A3) + CAR['space'] + CAR['B'] % (B1, B2, B3) + CAR['space'] + CAR['back'] + CAR['wall']
+        return data
+
     def set_seat(self, chat_id, seat, car=1):
         pass
     def free(self, chat_id, seat, car=1):

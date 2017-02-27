@@ -7,6 +7,7 @@ from pymongo import MongoClient
 from user import Money
 import telepot
 import time
+from cars import Chat
 
 mongodb_data = None
 mongodb_car = None
@@ -14,6 +15,7 @@ bot = None
 debug = False
 
 money = None
+chat = None
 
 def command(msg, chat_id):
     tmp = msg['text'][1:].split(" ", 1)
@@ -48,6 +50,10 @@ def command(msg, chat_id):
                     print(user_id, money.function[k][0])
                 pass
             break
+    if order == "set":
+        bot.sendMessage(chat_id,chat.set_chat(chat_id), parse_mode="html")
+    elif order == "s":
+        bot.sendMessage(chat_id, chat.show(chat_id), parse_mode="html")
     return 0
 
 def handle(msg):
@@ -92,6 +98,7 @@ if __name__ == "__main__":
         # history_length = config.getint('init', 'history')
 
         money = Money(mongodb_data)
+        chat = Chat(mongodb_car)
 
         bot.message_loop({'chat': handle})
         print "Listen..."
