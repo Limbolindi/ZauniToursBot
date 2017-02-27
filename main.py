@@ -98,7 +98,7 @@ if __name__ == "__main__":
         # history_length = config.getint('init', 'history')
 
         money = Money(mongodb_data)
-        chat = Chat(mongodb_car)
+        chat = Chat(mongodb_data, mongodb_car)
 
         bot.message_loop({'chat': handle})
         print "Listen..."
