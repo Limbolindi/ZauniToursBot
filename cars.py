@@ -52,9 +52,10 @@ class Chat(Struckt):
         if result is None:
             return MSG['unknown_chat'] % chat_id
         cars = result.get("cars",[])
-        if cars.__len__() < car:
+        if cars.__len__() < (car):
             return MSG['car_not_found'] % (chat_id, car)
 
+        car = car -1
         text = self.get_car(cars[car])
         text += "\n\n"
         for k in cars[car].keys():
