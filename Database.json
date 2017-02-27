@@ -1,9 +1,10 @@
+[
+// coll: data
 {
   "_id": "ObjectId(00000)", // MongoDB ObjectID
-  "id": "aaa", //hash von init-money
   "nick": "Lind.Maxi",
   "nick.lower": "lindi.maxi", // for searching purpose
-  "value": 0.0, // (float)
+  "balance": 0.0, // (float)
   "money":[
     {
       "text": "", // überweisungstext
@@ -13,8 +14,23 @@
 
     }
   ],
-  //for Admins
   "permission": 0, // (int)
-  "user_id": "0000", // (str) user_id
-  "name": "Maxi" // (str) name
+  "user_id": "0000" // (str) user_id
+},
+
+//coll: chatt
+{
+  "_id": "ObjectId(00000)", // MongoDB ObjectID
+  "chat_id": "000" // (str) chat_id
+  "cars":[
+    {
+      "A1": "000", //00 if free else uid
+      "A3": "000",
+      "B1": "000",
+      "B3": "000",
+      "B2": "000"
+    },
+    {}
+  ]
 }
+]

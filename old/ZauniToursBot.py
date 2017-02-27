@@ -34,7 +34,8 @@ MSG = {
     'missing_arguments_add': "missing arguments!\nadd text;value;user1(;user2;userX)\n",
     'user_exists': "User %s already exists\n",
     'user_created': "%s created\n",
-    'description': "Programm Beschreibung"
+    'description': "Programm Beschreibung",
+    'missing_arguments_trans': "missing arguments!\ntrans text;money;From_user1;TO_user2\n"
 
 
 }
@@ -48,7 +49,9 @@ COMMANDS = [
     ["/showhistory user1(;user2;userX)", "user-information, including history", 3],
     ["/showdetail user1", "prints ALL information about one user", 3],
     ["/add text;value;user1(;user2;userX)", "add <value> to userX with the kontext: text", 4],
-    ["/adduser user1(;user2;userX)", "adds a new User to DB with username = userX", 5]
+    ["/adduser user1(;user2;userX)", "adds a new User to DB with username = userX", 5],
+    ["/trans text;value;froUser1;Touser2", 4]
+
 ]
 
 
@@ -123,7 +126,7 @@ def show_history(value):
             text += MSG['show_user'] % (data['nick'], Decimal(data['value'])/Decimal(10))
             x = data['money'].__len__()
             j = 1
-            while ((x - j) >= 0 and j < 5):
+            while ((x - j) >= 0 and j <= GLOBAL['history']):
                 text += MSG['show_history'] % (data['money'][x - j]['text'],
                                                Decimal(data['money'][x - j]['value'])/Decimal(10))
                 j += 1
@@ -187,6 +190,28 @@ def add_user(value, user_id):
     return text
 
 
+def transact(user_id, value):
+    tmp = value.split(";")
+    if tmp.__len__() < 4:
+        return MSG['missing_arguments_add']
+    # text;value;user;user2
+    money = int(Decimal(tmp[1].replace(",", ".")))
+
+    result = GLOBAL['mongodb'].find_one({"nick_lower": str(tmp[2]).lower()})
+    if result is None:
+        return MSG['unknown_nick'] % tmp[2]
+    result = None
+    result = GLOBAL['mongodb'].find_one({"nick_lower": str(tmp[3]).lower()})
+    if result is None:
+        return MSG['unknown_nick'] % tmp[3]
+    v1 = "[T] " + tmp[0] + ";" + str(money*-1) + ";" + tmp[2]
+    v2 = "[T] " + tmp[0] + ";" + str(money) + ";" + tmp[3]
+    ret = ""
+    ret += add(user_id, v1)
+    ret += add(user_id, v2)
+    return ret
+
+
 def command(msg, chat_id):
     tmp = msg['text'][1:].split(" ", 1)
     order = tmp[0].lower()
@@ -222,8 +247,10 @@ def command(msg, chat_id):
         BOT.sendMessage(chat_id, show_detail(value), parse_mode="html")
     elif order == "add" and permission >= 4:
         BOT.sendMessage(chat_id, add(user_id, value), parse_mode="html")
+    elif order == "trans" and permission >= 4:
+        BOT.sendMessage(chat_id, transact(user_id, value), parse_mode="html")
     elif order == "adduser" and permission >= 5:
-        BOT.sendMessage(chat_id, add(user_id, value), parse_mode="html")
+        BOT.sendMessage(chat_id, add_user(user_id, value), parse_mode="html")
 
 
 def handle(msg):
