@@ -56,6 +56,7 @@ def __init__(conf):
         import traceback
         traceback.print_exc()
 
+
 def command(msg, chat_id):
     tmp = msg['text'][1:].split(" ", 1)
     order = tmp[0].lower()
@@ -108,6 +109,7 @@ def command(msg, chat_id):
             break
     return 0
 
+
 def handle(msg):
     if debug:
         print json.dumps(msg, indent=4)
@@ -116,10 +118,13 @@ def handle(msg):
     if content_type == 'text':
         if msg['text'][0] == '/':
             command(msg, chat_id)
+
+
 def callback(msg):
     if debug:
         print json.dumps(msg, indent=4)
         time.sleep(1)
+
 
 if __name__ == "__main__":
     #TODO description
