@@ -10,8 +10,8 @@ from data import MSG, Struckt
 
 class Money():
 
-    def __init__(self, database):
-        self.money = self.__Money(database)
+    def __init__(self, database, history_length=5):
+        self.money = self.__Money(database, history_length)
 
     def Show(self, value, user_id):
         return self.show(value)
@@ -45,6 +45,12 @@ class Money():
         '''
         Basic handling of Balance of the Users in the DB
         '''
+
+        def __init__(self, database, history_length):
+            super(self.__class__, self).__init__(database)
+            if type(history_length) is not int:
+                raise TypeError(type(history_length))
+            self.length = history_length
 
         def show_all_users_in_db(self):
             '''
@@ -93,7 +99,7 @@ class Money():
                 text += i + ";"
             return self.show(text[:-1], ignore_zero)
 
-        def show_history(self, value, length = 5):
+        def show_history(self, value):
             """
             show Information + Transaction history
             :param value: usename
@@ -112,7 +118,7 @@ class Money():
                         continue
                     x = data['money'].__len__()
                     j = 1
-                    while ((x - j) >= 0 and j <= length):
+                    while ((x - j) >= 0 and j <= self.length):
                         text += MSG['show_history'] % (data['money'][x - j]['text'],
                                                        Decimal(data['money'][x - j]['value']) / Decimal(10))
                         j += 1
