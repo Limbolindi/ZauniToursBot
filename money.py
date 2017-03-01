@@ -11,7 +11,7 @@ from data import MSG, Struckt
 class Money():
 
     def __init__(self, database):
-        self.money = self.__money(database)
+        self.money = self.__Money(database)
 
     def Show(self, value, user_id):
         return self.show(value)
@@ -41,7 +41,7 @@ class Money():
         [Show,          "show",         "/show user1(;user2;userX)",            "shows information about user1 optional: (;user2;user3)",   6]
     ]
 
-    class __money(Struckt):
+    class __Money(Struckt):
         '''
         Basic handling of Balance of the Users in the DB
         '''
