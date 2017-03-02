@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8-*-
 
-from pymongo import MongoClient
 import pymongo
 
 EURO = "€".decode("utf-8")
+
 MSG = {
     'adduser_missing_param': "Missing parameter: /adduser username",
     'user_exists_already': "User %s already exists, can't create duplicate!",
@@ -12,9 +12,9 @@ MSG = {
     'error_mongo_adduser': "CRIT _ ERROR _ %s",
 
     'show_missing_param': "Missing parameter: username",
-    'show_user_short': "%s: %s" + EURO + " \n",
+
     'unknown_username': "User %s is unknown!",
-    'show_history': "\t\t\t\t%s : %s" + EURO + "\n",
+
 
     'add_missing_param': "Missing arguments: /add text;value;user",
     'error_mongo_add': "CRIT _ ERROR _ %s",
@@ -28,15 +28,27 @@ MSG = {
     'car_not_found': "%s, %s",
     'car_wrong_seat': "%s",
     'seat_blocked': "%s",
-    'select_seat': "choose seat"
+    'select_seat': "choose seat",
+
+    #new
+
+    'mongo_update_error': 'mongo_update_error',
+    'wrong_args': "'%s' is not as expected",
+    'show': "%s: %s" + EURO + " \n",
+    'history': "\t\t[%s] %s : %s" + EURO + "\n",
+    'history_T': "\t\t[%s] %s : %s" + EURO + "\n",
+    'all_users': "Users:\n",
+    'user1_missing': "user1_missing",
+    'user2_missing': "user2_missing",
+    'user_exists': 'user_exists',
+    'missing_nick': 'missing_nick',
+    'missing_uid': 'missing_uid',
+    'missing_id': 'missing_id - Identifier',
+
+
+
 
 }
-
-COMMANDS = [
-    # command , description, permission-level
-    ["/help", "prints this help-msg", 1],
-    ["/register nickname", "register account to use advanced functions, nick is provided by admin", 1],
-]
 
 CAR = {
     "head": u"\u2b06\ufe0f\u25ab\ufe0f1\u20e32\u20e33\u20e3\u25ab\ufe0f\n",
@@ -51,7 +63,8 @@ CAR = {
     "ghost": u"\U0001f47b"
 }
 
-class Struckt():
+
+class Struckt(object):
     mongodb = None
 
     def __init__(self, mongodb):
@@ -62,8 +75,14 @@ class Struckt():
             raise TypeError(type(mongodb))
         self.mongodb = mongodb
 
-    def user_get_by_uid(self, user_id):
-        return self.mongodb.find_one({"user_id": user_id})
 
-    def user_get_by_nick(self, nick):
-        return self.mongodb.find_one({"nick_lower": str(nick).lower()})
+RET = {
+    'cant_find_user': 10,
+    #'unknown_user_id': 11,
+    #'unknown_nick': 12,
+    'missing_nick': 20,
+    'missing_id': 23,
+    'user_exists': 25,
+    'error_trans': 30,
+    'nothing_to_write': 32,
+}
