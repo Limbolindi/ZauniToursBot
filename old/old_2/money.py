@@ -52,6 +52,7 @@ class Money():
                 raise TypeError(type(history_length))
             self.length = history_length
 
+"""
         def show_all_users_in_db(self):
             '''
             creates a List with all db-users
@@ -65,7 +66,7 @@ class Money():
                 users.append(user['nick'])
             users.sort()
             return users
-
+"""
         def show(self, value, ignore_zero=False):
             """
             Shows basic balance Information about user(s) set in value

@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8-*-
 
-import pymongo
-
 EURO = "€".decode("utf-8")
 
 MSG = {
@@ -64,16 +62,10 @@ CAR = {
 }
 
 
-class Struckt(object):
-    mongodb = None
 
-    def __init__(self, mongodb):
-        """
-        :type mongodb: pymongo.collection.Collection
-        """
-        if type(mongodb) is not pymongo.collection.Collection:
-            raise TypeError(type(mongodb))
-        self.mongodb = mongodb
+
+class IF(object):
+    pass
 
 
 RET = {
@@ -86,3 +78,4 @@ RET = {
     'error_trans': 30,
     'nothing_to_write': 32,
 }
+

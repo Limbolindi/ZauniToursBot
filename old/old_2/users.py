@@ -10,6 +10,10 @@ from decimal import Decimal
 class Users(object):
 
     def __init__(self, database):
+        """
+
+        :rtype: object
+        """
         self.users = self.__Users(database)
 
     def NewUser(self, nick, balance = 0, text= None):
@@ -242,12 +246,4 @@ class User(object):
                 pass
 
             return text
-
-
-
-
-
-
-
-
 

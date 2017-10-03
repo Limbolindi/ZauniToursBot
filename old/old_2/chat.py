@@ -11,6 +11,7 @@ import pymongo
 class Chat(Struckt):
     chats = None
 
+
     def __init__(self, mongodb, mongo_chats):
         """
         :type mongodb: pymongo.collection.Collection

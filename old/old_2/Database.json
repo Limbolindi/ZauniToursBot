@@ -8,7 +8,6 @@
   "money":[
     {
       "text": "", // überweisungstext
-      "by": "0000", // (str) user_id
       "value": 0.0, // (float)
       "date": "2017-02-09"
 
@@ -21,7 +20,7 @@
 //coll: chatt
 {
   "_id": "ObjectId(00000)", // MongoDB ObjectID
-  "chat_id": "000" // (str) chat_id
+  "chat_id": "000"   // (str) chat_id
   "cars":[
     {
       "A1": "000", //00 if free else uid

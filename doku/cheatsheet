@@ -1,0 +1,22 @@
+self.functions.append({
+'funct': self.bot_show,
+'keys': ["show"],
+'description': "Get user informations // user object",
+'id': 0,
+'enabled': True,
+})
+
+# CMD.db_command()
+# CMD.db_replay()
+# CMD.db_new_participant()
+# CMD.db_callback()
+CMD.db_command({
+            'funct': self.,
+            'keys': [''],
+            'description': "",
+            'params': [''],
+            'options': [''],
+            'name': "",
+            'security': 0,
+            'enabled': True
+        })
